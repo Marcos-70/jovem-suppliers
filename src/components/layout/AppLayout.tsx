@@ -17,7 +17,8 @@ export default function AppLayout() {
   const loc = useLocation()
   const [open, setOpen] = useState(false)
   const [menu, setMenu] = useState(false)
-  const uid = a.ctx?.profile.id
+  // Navegação segura com ?. para evitar telas brancas se o perfil ainda estiver a carregar
+  const uid = a.ctx?.profile?.id
   const unread = useQuery({ queryKey: ['unread', uid], queryFn: () => unreadCount(uid as string), enabled: !!uid, refetchInterval: 60_000 })
 
   if (a.loading) return <div className="grid min-h-screen place-items-center"><Spinner /></div>
@@ -81,7 +82,7 @@ export default function AppLayout() {
         </div>
       )}
       <div className="lg:pl-64 print:pl-0">
-          <header className="sticky top-0 z-20 flex h-[68px] items-center gap-3 border-b border-navy-800 bg-navy px-4 text-white backdrop-blur print:hidden sm:px-6 lg:border-line lg:bg-white lg:text-ink">
+        <header className="sticky top-0 z-20 flex h-[68px] items-center gap-3 border-b border-navy-800 bg-navy px-4 text-white backdrop-blur print:hidden sm:px-6 lg:border-line lg:bg-white lg:text-ink">
           <button className="rounded-lg p-2 lg:hidden" aria-label="Abrir menu" aria-expanded={open} onClick={() => setOpen(true)}><Menu /></button>
           <Link to="/app" className="lg:hidden" aria-label="Painel"><Logo light size={30} /></Link>
           <div className="min-w-0 flex-1">
@@ -91,7 +92,7 @@ export default function AppLayout() {
                   {a.ctx.memberships.map((x) => <option key={x.organization_id} value={x.organization_id}>{x.organization.trade_name || x.organization.legal_name}</option>)}
                 </select></label>
             ) : (
-              <p className="hidden truncate font-display text-[15px] font-semibold text-navy lg:block">{m ? m.organization.trade_name || m.organization.legal_name : a.isSuper ? 'Administração da plataforma' : 'Sem organização'}</p>
+              <p className="hidden truncate font-display text-[15px] font-semibold text-navy lg:block">{m ? m.organization.trade_name || m.organization.legal_name : a.isSuper ? 'Administração da plataforma' : 'Sem organização activa'}</p>
             )}
           </div>
           <Link to="/app/notificacoes" className="relative rounded-lg p-2 text-white hover:bg-white/10 lg:text-ink-soft lg:hover:bg-surface" aria-label={`Notificações${unread.data ? `: ${unread.data} por ler` : ''}`}>
@@ -99,8 +100,8 @@ export default function AppLayout() {
           </Link>
           <div className="relative">
             <button className="flex items-center gap-2 rounded-lg px-2 py-1.5 hover:bg-white/10 lg:hover:bg-surface" aria-haspopup="menu" aria-expanded={menu} onClick={() => setMenu(!menu)}>
-              <span className="grid h-8 w-8 place-items-center rounded-full bg-gold text-sm font-bold text-navy" aria-hidden>{(a.ctx?.profile.full_name || a.email || '?').slice(0, 1).toUpperCase()}</span>
-              <span className="hidden max-w-[160px] truncate text-sm font-semibold sm:block lg:text-navy">{a.ctx?.profile.full_name || a.email}</span><ChevronDown className="h-4 w-4 text-ink-mute" aria-hidden />
+              <span className="grid h-8 w-8 place-items-center rounded-full bg-gold text-sm font-bold text-navy" aria-hidden>{(a.ctx?.profile?.full_name || a.email || '?').slice(0, 1).toUpperCase()}</span>
+              <span className="hidden max-w-[160px] truncate text-sm font-semibold sm:block lg:text-navy">{a.ctx?.profile?.full_name || a.email}</span><ChevronDown className="h-4 w-4 text-ink-mute" aria-hidden />
             </button>
             {menu && (
               <div role="menu" className="absolute right-0 mt-1 w-56 rounded-card border border-line bg-white py-1 shadow-pop" onMouseLeave={() => setMenu(false)}>

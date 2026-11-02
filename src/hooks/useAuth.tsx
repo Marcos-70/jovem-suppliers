@@ -16,7 +16,6 @@ interface AuthState {
   perms: Set<string>
   can: (p: string) => boolean
   isSuper: boolean
-  /** A organização activa pode comprar / vender (conforme o tipo registado). */
   isBuyerOrg: boolean
   isSupplierOrg: boolean
   refresh: () => Promise<void>
@@ -32,16 +31,35 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [ctx, setCtx] = useState<UserContext | null>(null)
   const [activeOrgId, setActiveOrgId] = useState<string | null>(() => { try { return sessionStorage.getItem(ORG_KEY) } catch { return null } })
 
-  const hydrate = useCallback(async (session: { user: { email?: string; user_metadata?: Record<string, any> } } | null) => {
+  const hydrate = useCallback(async (session: { user: { id: string; email?: string; user_metadata?: Record<string, any> } } | null) => {
     if (!session) { setCtx(null); setEmail(null); setLoading(false); return }
     setEmail(session.user.email ?? null)
     try {
       let c = await loadContext()
       const pending = session.user.user_metadata?.pending_org
-      if (c.memberships.length === 0 && pending) {
-        // Registo com confirmação de e-mail: cria a organização no primeiro início de sessão.
-        try { await createOrganization(pending); c = await loadContext() } catch { /* o utilizador pode criar depois */ }
+      if (c && c.memberships.length === 0 && pending) {
+        try {
+          await createOrganization(pending)
+          // Limpa pending_org para não tentar em loop se falhar
+          await db.auth.updateUser({ data: { pending_org: null } })
+          c = await loadContext()
+        } catch {
+          // Se falhou (ex: NIF em conflito), limpa o metadata para não repetir requisições
+          try { await db.auth.updateUser({ data: { pending_org: null } }) } catch { /* ignorar */ }
+        }
       }
+
+      // Salvaguarda: se o perfil na BD ainda não existir, cria um objeto seguro em memória
+      if (c && !c.profile) {
+        c.profile = {
+          id: session.user.id,
+          full_name: session.user.user_metadata?.full_name || session.user.email || 'Utilizador',
+          phone: null,
+          job_title: null,
+          is_active: true,
+        }
+      }
+
       setCtx(c)
     } catch { setCtx(null) }
     setLoading(false)
