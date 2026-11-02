@@ -1,0 +1,101 @@
+[
+ {
+  "quantity": "3",
+  "unitPrice": "1234.56",
+  "discountPct": "10",
+  "taxPct": "14",
+  "gross": 3703.68,
+  "discount": 370.37,
+  "subtotal": 3333.31,
+  "tax": 466.66,
+  "total": 3799.97
+ },
+ {
+  "quantity": "10.5",
+  "unitPrice": "5000",
+  "discountPct": "0",
+  "taxPct": "14",
+  "gross": 52500.0,
+  "discount": 0.0,
+  "subtotal": 52500.0,
+  "tax": 7350.0,
+  "total": 59850.0
+ },
+ {
+  "quantity": "0.5",
+  "unitPrice": "0.01",
+  "discountPct": "0",
+  "taxPct": "0",
+  "gross": 0.01,
+  "discount": 0.0,
+  "subtotal": 0.01,
+  "tax": 0.0,
+  "total": 0.01
+ },
+ {
+  "quantity": "1.005",
+  "unitPrice": "1",
+  "discountPct": "0",
+  "taxPct": "0",
+  "gross": 1.01,
+  "discount": 0.0,
+  "subtotal": 1.01,
+  "tax": 0.0,
+  "total": 1.01
+ },
+ {
+  "quantity": "7",
+  "unitPrice": "99.99",
+  "discountPct": "33.33",
+  "taxPct": "14",
+  "gross": 699.93,
+  "discount": 233.29,
+  "subtotal": 466.64,
+  "tax": 65.33,
+  "total": 531.97
+ },
+ {
+  "quantity": "1000",
+  "unitPrice": "0.01",
+  "discountPct": "100",
+  "taxPct": "14",
+  "gross": 10.0,
+  "discount": 10.0,
+  "subtotal": 0.0,
+  "tax": 0.0,
+  "total": 0.0
+ },
+ {
+  "quantity": "2.250",
+  "unitPrice": "1500000.50",
+  "discountPct": "5",
+  "taxPct": "0",
+  "gross": 3375001.13,
+  "discount": 168750.06,
+  "subtotal": 3206251.07,
+  "tax": 0.0,
+  "total": 3206251.07
+ },
+ {
+  "quantity": "1",
+  "unitPrice": "0.01",
+  "discountPct": "50",
+  "taxPct": "14",
+  "gross": 0.01,
+  "discount": 0.01,
+  "subtotal": 0.0,
+  "tax": 0.0,
+  "total": 0.0
+ },
+ {
+  "quantity": "12.345",
+  "unitPrice": "3.33",
+  "discountPct": "12.5",
+  "taxPct": "7",
+  "gross": 41.11,
+  "discount": 5.14,
+  "subtotal": 35.97,
+  "tax": 2.52,
+  "total": 38.49
+ }
+]

@@ -1,0 +1,23 @@
+# Verificação automática em cada push/pull request: tipos, testes e build.
+# (Os testes SQL precisam de PostgreSQL local; correm com `npm run test:sql` no seu computador.)
+name: CI
+on:
+  push:
+    branches: [main]
+  pull_request:
+jobs:
+  verificar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm test
+      - run: npm run build
+        env:
+          VITE_SUPABASE_URL: https://exemplo.supabase.co
+          VITE_SUPABASE_ANON_KEY: chave-anon-de-exemplo

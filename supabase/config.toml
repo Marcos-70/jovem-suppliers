@@ -1,0 +1,16 @@
+# Configuração para o Supabase CLI local (supabase start). No projecto alojado, defina o equivalente no Dashboard.
+project_id = "jovem-suppliers"
+
+[auth]
+enable_signup = true
+minimum_password_length = 10
+password_requirements = "letters_digits"
+site_url = "http://localhost:5173"
+additional_redirect_urls = ["http://localhost:5173/entrar", "http://localhost:5173/redefinir-palavra-passe"]
+
+[auth.email]
+enable_confirmations = true   # exige confirmação de e-mail (o registo trata este caso)
+
+[auth.rate_limit]
+email_sent = 4
+sign_in_sign_ups = 30

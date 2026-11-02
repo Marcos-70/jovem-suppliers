@@ -1,0 +1,82 @@
+[
+ {
+  "declared": "1000",
+  "counted": "1000",
+  "damaged": "0",
+  "unitWeight": "50",
+  "diff": 0.0,
+  "good": 1000.0,
+  "diffPct": 0.0,
+  "weightKg": 50000.0
+ },
+ {
+  "declared": "1000",
+  "counted": "987.5",
+  "damaged": "12.5",
+  "unitWeight": "25.5",
+  "diff": -12.5,
+  "good": 975.0,
+  "diffPct": -1.25,
+  "weightKg": 24862.5
+ },
+ {
+  "declared": "500",
+  "counted": "512",
+  "damaged": "3",
+  "unitWeight": "0.75",
+  "diff": 12.0,
+  "good": 509.0,
+  "diffPct": 2.4,
+  "weightKg": 381.75
+ },
+ {
+  "declared": "0",
+  "counted": "10",
+  "damaged": "0",
+  "unitWeight": null,
+  "diff": 10.0,
+  "good": 10.0,
+  "diffPct": null,
+  "weightKg": null
+ },
+ {
+  "declared": "2500.250",
+  "counted": "2490.125",
+  "damaged": "0.125",
+  "unitWeight": "1",
+  "diff": -10.125,
+  "good": 2490.0,
+  "diffPct": -0.4,
+  "weightKg": 2490.0
+ },
+ {
+  "declared": "3",
+  "counted": "2",
+  "damaged": "2",
+  "unitWeight": "12.3456",
+  "diff": -1.0,
+  "good": 0.0,
+  "diffPct": -33.33,
+  "weightKg": 0.0
+ },
+ {
+  "declared": "750",
+  "counted": "749.999",
+  "damaged": "0",
+  "unitWeight": "0.001",
+  "diff": -0.001,
+  "good": 749.999,
+  "diffPct": -0.0,
+  "weightKg": 0.75
+ },
+ {
+  "declared": "12345.678",
+  "counted": "12000.000",
+  "damaged": "345.678",
+  "unitWeight": "0.5",
+  "diff": -345.678,
+  "good": 11654.322,
+  "diffPct": -2.8,
+  "weightKg": 5827.161
+ }
+]
