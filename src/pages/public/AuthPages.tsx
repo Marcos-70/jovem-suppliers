@@ -1,6 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod'
-import { FlaskConical, MailCheck } from 'lucide-react'
-import { useState } from 'react'
+import { CheckCircle2, FlaskConical, MailCheck } from 'lucide-react'
+import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom'
 import type { z } from 'zod'
@@ -40,14 +40,48 @@ export function Login() {
   const loc = useLocation()
   const { authenticated, loading } = useAuth()
   const [error, setError] = useState<string>()
+  const [notice, setNotice] = useState<string>()
   const f = useForm<z.infer<typeof loginSchema>>({ resolver: zodResolver(loginSchema) })
+
+  // Detecta retorno de e-mail de confirmação ou erros nos parâmetros da URL/hash
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+
+    const hash = window.location.hash
+    const searchParams = new URLSearchParams(loc.search)
+
+    if (hash) {
+      const hashParams = new URLSearchParams(hash.replace(/^#/, ''))
+      const errorDesc = hashParams.get('error_description')
+      if (errorDesc) {
+        setError(decodeURIComponent(errorDesc.replace(/\+/g, ' ')))
+      } else if (hashParams.get('type') === 'signup') {
+        setNotice('Conta confirmada com sucesso! A iniciar sessão na plataforma...')
+      }
+    }
+
+    const errDesc = searchParams.get('error_description')
+    if (errDesc) {
+      setError(decodeURIComponent(errDesc.replace(/\+/g, ' ')))
+    }
+  }, [loc])
+
   if (!loading && authenticated) return <Navigate to={(loc.state as { from?: string })?.from ?? '/app'} replace />
+
   const go = async (email: string, password: string) => {
     setError(undefined)
     try { await signIn(email, password); nav((loc.state as { from?: string })?.from ?? '/app', { replace: true }) } catch (e) { setError(friendlyError(e)) }
   }
+
   return (
     <AuthShell split title="Bem-vindo(a)!" subtitle="Faça login para continuar.">
+      {notice && (
+        <div className="mb-4">
+          <Alert tone="ok" title="Confirmação bem-sucedida">
+            <span className="flex items-center gap-1.5">{notice}</span>
+          </Alert>
+        </div>
+      )}
       {error && <div className="mb-4"><Alert tone="danger">{error}</Alert></div>}
       <form onSubmit={f.handleSubmit((v) => go(v.email, v.password))} noValidate className="space-y-4">
         <Field label="E-mail" error={f.formState.errors.email?.message} required>{(id, d) => <Input id={id} type="email" autoComplete="email" aria-describedby={d} {...f.register('email')} />}</Field>
@@ -86,7 +120,7 @@ export function Register() {
   }
   if (confirm) return (
     <AuthShell title="Confirme o seu e-mail">
-      <div className="text-center"><MailCheck className="mx-auto h-12 w-12 text-brand" aria-hidden /><p className="mt-3 text-[15px] text-ink">Enviámos uma mensagem de confirmação para <strong>{f.getValues('email')}</strong>. Depois de confirmar, inicie sessão — a sua empresa será criada automaticamente.</p><Link to="/entrar" className="btn-primary mt-5">Ir para o início de sessão</Link></div>
+      <div className="text-center"><MailCheck className="mx-auto h-12 w-12 text-brand" aria-hidden /><p className="mt-3 text-[15px] text-ink">Enviámos uma mensagem de confirmação para <strong>{f.getValues('email')}</strong>. Depois de confirmar no e-mail, inicie sessão — a sua empresa será criada automaticamente.</p><Link to="/entrar" className="btn-primary mt-5">Ir para o início de sessão</Link></div>
     </AuthShell>
   )
   return (
