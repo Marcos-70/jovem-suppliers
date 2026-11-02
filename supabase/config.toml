@@ -5,10 +5,10 @@ enable_signup = true
 minimum_password_length = 10
 password_requirements = "letters_digits"
 # Para produção no Supabase Cloud, isto deve ser configurado no Dashboard
-site_url = "http://localhost:5173"
+site_url = "http://jovem-suppliers.vercel.app"
 additional_redirect_urls = [
-  "http://localhost:5173/entrar",
-  "http://localhost:5173/redefinir-palavra-passe"
+  "http://jovem-suppliers.vercel.app/entrar",
+  "http://jovem-suppliers.vercel.app/redefinir-palavra-passe"
 ]
 
 [auth.email]
